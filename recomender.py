@@ -66,5 +66,18 @@ except FileNotFoundError:
 
 # Now that we have the vector db running let's run some queries.
 
+# Let's pick a movie then use the db to find the 3 most closely related movies
+idx = 11
+row = df_data.slice(idx, 1)
+print(row)
+input_vector = row["vector"].item().to_numpy()
+print(input_vector.shape)
 
+res = (
+    tbl.search(input_vector, vector_column_name="vector")
+    .metric("l2")
+    .limit(4)
+    .to_polars()
+)
+print(res.select(["title", "genres", "_distance"]))
 print("done")
