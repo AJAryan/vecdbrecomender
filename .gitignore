@@ -1,3 +1,4 @@
 data/
 venv/
+lancedb/
 .DS_Store
