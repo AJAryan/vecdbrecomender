@@ -59,10 +59,8 @@ df_data = df_data.join(df_links.select(["movieId", "imdbId"]), on="movieId", how
 uri = "./lancedb"
 db = lancedb.connect(uri)
 
-try:
-    tbl = db.open_table("movie_table")
-except FileNotFoundError:
-    tbl = db.create_table("movie_table", data=df_data)
+db.drop_table("movie_table", ignore_missing=True)
+tbl = db.create_table("movie_table", data=df_data)
 
 # Now that we have the vector db running let's run some queries.
 
